@@ -1,0 +1,28 @@
+db_mongo
+db_mysql
+
+
+
+# Other general ignores
+node_modules/
+dist/
+.next/
+*.log
+.env
+
+# Node.js modules
+client/node_modules
+server/node_modules
+
+# Build outputs
+server/dist
+
+# Environment files
+client/.env
+server/.env
+
+
+client/.next
+client/next-env.d.ts
+# Logs
+*.log

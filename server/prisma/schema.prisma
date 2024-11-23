@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id            String      @id //@default(cuid()) @db.Char(36) // ใช้ Char(36) สำหรับ UUID
+  username      String      @unique
+  password      String
+  roleId        String // ใช้ String แทน UUID
+  role          Role        @relation(fields: [roleId], references: [id], name: "RoleProfile") // ใช้ชื่อ constraint ที่ไม่ซ้ำกัน
+  isActive      Boolean     @default(true)
+  parentRoleId  String?     @db.Char(36) // ใช้ Char(36) สำหรับ UUID
+  parentRole    Profile?    @relation("Profile", fields: [parentRoleId], references: [id]) // ตั้งชื่อการเชื่อมโยง
+  childrenUser  Profile[]   @relation("Profile")
+  permissions   Permissions @relation(fields: [permissionsId], references: [id])
+  permissionsId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model Permissions {
+  id       String    @id //@default(cuid()) @db.Char(36) // ใช้ Char(36) สำหรับ UUID
+  create   Boolean?  @default(false)
+  read     Boolean   @default(true)
+  update   Boolean?  @default(false)
+  delete   Boolean?  @default(false)
+  profiles Profile[]
+}
+
+enum RoleType {
+  Master
+  Admin
+  Member
+}
+
+model Role {
+  id         String    @id //@default(cuid()) @db.Char(36)
+  name       RoleType
+  isProfiles Profile[] @relation("RoleProfile")
+  createdAt  DateTime  @default(now())
+}
+
+model Room {
+  id          String   @id //@default(cuid()) @db.Char(36) // ใช้ Char(36) สำหรับ UUID
+  floor       Int
+  number      Int
+  status      String   @default("available")
+  monthlyRent Int      @default(0)
+  tenet       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  roomDetails RoomDetail[] // ความสัมพันธ์แบบ one-to-many
+}
+
+model RoomDetail {
+  id          String @id //@default(cuid()) @db.Char(36)
+  roomId      String // อ้างอิงถึง Room
+  room        Room   @relation(fields: [roomId], references: [id]) // สร้างความสัมพันธ์
+  monthlyRent Int // ค่าเช่าที่ได้มาจาก Room
+  water       Int
+  electricity Int
+
+  serviceFees   AdditionalServiceFees @relation(fields: [serviceFeesID], references: [id]) // การอ้างอิงไปยัง Water model
+  serviceFeesID String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AdditionalServiceFees {
+  id          String       @id
+  name        String
+  price       Int
+  rentDetails RoomDetail[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Posts {
+  id          Int    @id @default(autoincrement())
+  title       String @unique
+  description String
+}
+
+// model Water {
+//   id           String @id
+//   price        Float
+//   previousUnit Int
+//   currentUnit  Int
+//   quality      Int
+//   tolal        Float?
+
+//   rentDetails RoomDetail[] // One-to-many relationship with RentDetails
+// }
+
+// model Electricity {
+//   id           String       @id
+//   price        Float
+//   previousUnit Int
+//   currentUnit  Int
+//   quality      Int
+//   tolal        Float?
+//   rentDetails  RoomDetail[]
+// }
