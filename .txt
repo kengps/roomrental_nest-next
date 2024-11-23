@@ -1,0 +1,71 @@
+ขั้นตอนการ config mongo
+
+1 ไปที่ app.module.ts ทำการเพิ่ม 
+    imports: [
+    MongooseModule.forRoot('mongodb://root:example@localhost:27017', {
+      user: 'root',
+      pass: 'example',
+      dbName: 'mydb',
+    }),
+    ProductsModule,
+  ],
+
+  2 สร้าง schemas product 
+
+        import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+        import { Document } from 'mongoose';
+
+        export type ProductDocument = Product & Document;
+
+        @Schema()
+        export class Product {
+        @Prop({ required: true })
+        name: string;
+
+        @Prop()
+        description: string;
+
+        @Prop()
+        price: number;
+        }
+
+    export const ProductSchema = SchemaFactory.createForClass(Product);
+
+3 products.service ทำการเพิ่ม 
+
+    constructor(
+    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+  ) {}
+
+
+  ในการ post 
+    async create(createProductDto: CreateProductDto): Promise<Product> {
+    const response = new this.productModel(createProductDto);
+   
+    // return response.save();
+    return ;
+  }
+
+
+
+ถ้าต้องการนำ Service ไปใช้ที่อื่น เช่น นำ product ไปใช้ที่ order
+1 ไปที่product.module ทำการเพิ่ม
+    exports: [ProductsService],
+
+2 ไปที่ order.module แล้วให้ทำการเพิ่ม product.module เข้ามา
+  import { ProductsModule } from 'src/products/products.module';
+
+  และเรียกใช้ ใน imports
+
+   imports: [
+    MongooseModule.forFeature([{ name: 'Order', schema: OrderSchema }]),
+    ProductsModule, // Import the ProductsModule
+  ],
+
+
+
+  ******************************** prismaServices ต้องนำเข้าทุก modules ................................
+
+
+
+การใช้ git หากติดตั้งผ่าน npx ให้ลบ .git .gitignore ด้วย

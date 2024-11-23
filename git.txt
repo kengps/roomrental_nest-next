@@ -1,0 +1,42 @@
+คำสั่ง สำหรับ git 
+
+ตรวจวสอบว่ามี branch อะไรแล้วกำลังอยู่ที่ branch ไหน
+    -  git branch 
+สร้าง branch สำหรับพัฒนา 
+    - git branch devolop          
+
+การย้ายไป branch อื่น
+    - git checkout <ชื่อ branch >
+
+
+
+git flow จะมี feature, bugfix, release, hotfix  ต้องการสร้างอะไรให้ start ตัวนั้น 
+คำส่ังสำหรับการเริ่มต้น feature ด้วย git flow
+    - git flow init (สร้าง enter ยาวๆ)
+    - git flow feature start <ชื่อ-feature>
+    - git flow feature list
+
+รวมฟีเจอร์กลับไปยัง develop
+    - git flow feature finish <ชื่อ-feature>
+
+
+หากดำเนินการเสร็จแล้ว ตรวจสอบสถานะก่อน รวม branch
+    - git status 
+
+ถ้ามีไฟล์ที่ยังไม่ได้ commit:
+    - git add .
+    - git commit -m "รายละเอียดการเปลี่ยนแปลง"
+
+
+หลังจากเสร็จเรียบร้อยแล้ว หากต้องการรวม feature ไปยัง branch dovolop 
+     ต้องเข้าไปอยู่ที่ branch ที่ต้องการ merge to dovolop ต้องเข้าไปที่ dovolop ก่อนด้วยคำส่ั่ง
+        - git checkout <ชื่อ branch>
+        - git merge feature/<ชื่อ feature>
+    หากต้องการ merged ไป main ก็ให้ทำด้วยวิธีเดิม
+
+
+หลังจาก merge เสร็จแล้ว หากต้องการลบ feature (ปกติ git flow จะลบอัตโนมัต)
+    - git branch -d feature/<ชื่อ feature>
+
+
+================================================================
