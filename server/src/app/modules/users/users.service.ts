@@ -87,24 +87,22 @@ export class UsersService {
   }
 
   async update(id: string, password: string): Promise<any> {
-  console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:90  password :`, password);
-
+    console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:90  password :`, password);
 
     const existUser = await this.prisma.profile.findUnique({
-      where: {id: id}
-    })
+      where: { id: id },
+    });
     console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:94  existUser :`, existUser);
 
-    if(!existUser) {
+    if (!existUser) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     const hashPassword = await generateHashPassword(password);
-      // Hash the new password
+    // Hash the new password
     //   const hashPassword = await bcrypt.hash(password, 10);
     //   console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:103  hashPassword :`, hashPassword);
 
-  
     const user = await this.prisma.profile.update({
       where: { id },
       data: { password: hashPassword },
@@ -113,8 +111,11 @@ export class UsersService {
     return user;
   }
 
-  remove(id: string) {
-   
-    return `This action removes a #${id} userdfgsdfgsdfg`;
+  async remove(id: string) {
+    console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:115  id :`, id);
+    await this.prisma.profile.findUnique({
+      where: { id },
+    });
+    return `delete ${id} successfully`;
   }
 }

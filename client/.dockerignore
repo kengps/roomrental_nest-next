@@ -1,9 +1,6 @@
-node_modules
+node_modules/
 .git
 .girignore
 # .dockerignore
 # docker-conmpose*
 # Dockerfile
-volumes
-
-node_modules
