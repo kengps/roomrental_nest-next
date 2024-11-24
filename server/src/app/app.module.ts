@@ -20,6 +20,9 @@ import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from 'src/config/prisma/prisma.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
+import { UsersKnexModule } from './modules/users-knex/users-knex.module';
+import { KnexjsModule } from 'src/config/knexjs/knexjs.module';
+
 
 @Module({
   imports: [
@@ -52,9 +55,13 @@ import { RoomsModule } from './modules/rooms/rooms.module';
     OrdersModule,
     jsonplaceholderModule,
     UsersModule,
-    PrismaModule,
     PostsModule,
-    RoomsModule
+    RoomsModule,
+    UsersKnexModule,
+    
+    //db connect
+    PrismaModule,
+    KnexjsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

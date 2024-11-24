@@ -71,3 +71,4 @@ services:
 
   redis:
     image: redis
+

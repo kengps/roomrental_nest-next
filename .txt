@@ -69,3 +69,17 @@
 
 
 การใช้ git หากติดตั้งผ่าน npx ให้ลบ .git .gitignore ด้วย
+
+
+
+ปัญหาที่เจอจาก docker-compose ที่ไม่สามารถเชื่อมต่อ mysql ได้  เพิ่ม npx prisma migrate dev --name init 
+command: sh -c "
+      until nc -z mysql 3306; do
+      echo 'Waiting for MySQL...';
+      sleep 2;
+      done;
+      sleep 10;
+      npx prisma generate &&
+      npx prisma migrate dev --name init &&
+      npm run start:dev"
+      
