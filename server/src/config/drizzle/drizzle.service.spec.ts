@@ -1,15 +1,15 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { KnexjsService } from './knexjs.service';
+import { DrizzleService } from './drizzle.service';
 
-describe('KnexjsService', () => {
-  let service: KnexjsService;
+describe('DrizzleService', () => {
+  let service: DrizzleService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [KnexjsService],
+      providers: [DrizzleService],
     }).compile();
 
-    service = module.get<KnexjsService>(KnexjsService);
+    service = module.get<DrizzleService>(DrizzleService);
   });
 
   it('should be defined', () => {

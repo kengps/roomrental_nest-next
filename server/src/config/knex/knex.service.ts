@@ -1,9 +1,4 @@
-// import type { Knex } from 'knex';
-// // import { config } from '../../../knex/knexfile/';
+import { Injectable } from '@nestjs/common';
 
-// import { kenxConfig } from "knex/knexfile";
-
-// const db = knex(kenxConfig);
-
-// export default db;
-
+@Injectable()
+export class KnexService {}

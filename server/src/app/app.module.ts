@@ -21,8 +21,8 @@ import { PrismaModule } from 'src/config/prisma/prisma.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
 import { UsersKnexModule } from './modules/users-knex/users-knex.module';
-import { KnexjsModule } from 'src/config/knexjs/knexjs.module';
-
+import { DrizzleModule } from 'src/config/drizzle/drizzle.module';
+import { KnexModule } from 'src/config/knex/knex.module';
 
 @Module({
   imports: [
@@ -30,7 +30,7 @@ import { KnexjsModule } from 'src/config/knexjs/knexjs.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
@@ -51,17 +51,18 @@ import { KnexjsModule } from 'src/config/knexjs/knexjs.module';
       },
       inject: [ConfigService],
     }),
-    ProductsModule,
+    // ProductsModule,
     OrdersModule,
     jsonplaceholderModule,
     UsersModule,
-    PostsModule,
     RoomsModule,
+    // PostsModule,
     UsersKnexModule,
-    
+
     //db connect
     PrismaModule,
-    KnexjsModule,
+    DrizzleModule,
+    KnexModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -33,15 +33,27 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  
+  @Get('/parent')
+  findUserParent() {
+    return this.usersService.findUserParent();
+  }
+  @Get('/isactive')
+  findUserIsActive() {
+    return this.usersService.findUserIsActive();
+  }
+  @Get('/isnotactive')
+  findUserIsNotActive() {
+    return this.usersService.findUserIsNotActive();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(id);
   }
-
   @Patch(':id')
   update(@Param('id') id: string, @Body('password') password: string) {
     //@Body('password') => password : value || @Body() password : { password : value}
-    return this.usersService.update(id, password);
+    return this.usersService.changePassword(id, password);
   }
 
   @Delete(':id')
@@ -49,6 +61,7 @@ export class UsersController {
     return this.usersService.remove(id);
   }
 }
+
 
 @Controller('roles')
 export class RoleController extends BaseController {

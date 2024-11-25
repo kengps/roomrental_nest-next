@@ -7,7 +7,7 @@ import {
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 const { nanoid } = require('nanoid');
-import { Prisma, Profile, RoleType } from '@prisma/client';
+import { Prisma, Profile, Role, RoleType } from '@prisma/client';
 
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from 'src/config/prisma/prisma.service';
@@ -71,37 +71,61 @@ export class UsersService {
     return await this.prisma.profile.findMany();
   }
 
-  findUserParent(id: string) {
-    return `This action returns a #${id} user`;
+  async findUserParent(): Promise<Profile[]> {
+    const userParent = await this.prisma.profile.findMany({
+      where: {
+        parentRoleId: {
+          not: null, // เงื่อนไขว่าต้องไม่เป็น null
+        },
+      },
+    });
+    return userParent;
   }
 
-  async findProfileInRole() {
+  async findUserIsActive(): Promise<Profile[]>{
+    const userParent = await this.prisma.profile.findMany({
+      where: {
+        isActive: true
+      },
+    });
+    return userParent;
+  }
+
+  async findUserIsNotActive():  Promise<Profile[]> {
+    const userParent = await this.prisma.profile.findMany({
+      where: {
+        isActive: false
+      },
+    });
+    return userParent;
+  }
+
+
+  async findProfileInRole() : Promise<Role[]>{
     return await this.prisma.role.findMany({
       include: {
         isProfiles: true,
       },
     });
   }
-  findOne(id: string) {
-    return `This action returns a #${id} user`;
+  async findOne(id: string): Promise<Profile | null> {
+    const user = await this.prisma.profile.findUnique({
+      where: { id: id },
+    });
+    return user
   }
 
-  async update(id: string, password: string): Promise<any> {
-    console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:90  password :`, password);
 
+  async changePassword(id: string, password: string):  Promise<Profile | null> {
     const existUser = await this.prisma.profile.findUnique({
       where: { id: id },
     });
-    console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:94  existUser :`, existUser);
 
     if (!existUser) {
       throw new NotFoundException(`User with ID ${id} not found`);
     }
 
     const hashPassword = await generateHashPassword(password);
-    // Hash the new password
-    //   const hashPassword = await bcrypt.hash(password, 10);
-    //   console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:103  hashPassword :`, hashPassword);
 
     const user = await this.prisma.profile.update({
       where: { id },
@@ -111,9 +135,8 @@ export class UsersService {
     return user;
   }
 
-  async remove(id: string) {
-    console.log(`⩇⩇:⩇⩇🚨  file: users.service.ts:115  id :`, id);
-    await this.prisma.profile.findUnique({
+  async remove(id: string): Promise<string> {
+    await this.prisma.profile.delete({
       where: { id },
     });
     return `delete ${id} successfully`;

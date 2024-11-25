@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -17,7 +18,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    // "typeRoots": ["node_modules/@types"], // เพิ่มตรงนี้เพื่อระบุ type definitions
-    // "types": ["knex"] // เพิ่ม 'knex' หากยังไม่มี
+   
   }
 }

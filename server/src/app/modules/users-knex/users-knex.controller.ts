@@ -8,8 +8,8 @@ export class UsersKnexController {
   constructor(private readonly usersKnexService: UsersKnexService) {}
 
   @Post()
-  create(@Body() createUsersKnexDto: CreateUsersKnexDto) {
-    return this.usersKnexService.create(createUsersKnexDto);
+  create(@Body() data ) {
+    return this.usersKnexService.create(data);
   }
 
   @Get()
