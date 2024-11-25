@@ -20,6 +20,9 @@ import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from 'src/config/prisma/prisma.module';
 import { PostsModule } from './modules/posts/posts.module';
 import { RoomsModule } from './modules/rooms/rooms.module';
+import { UsersKnexModule } from './modules/users-knex/users-knex.module';
+import { DrizzleModule } from 'src/config/drizzle/drizzle.module';
+import { KnexModule } from 'src/config/knex/knex.module';
 
 @Module({
   imports: [
@@ -27,7 +30,7 @@ import { RoomsModule } from './modules/rooms/rooms.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    
+
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => {
@@ -48,13 +51,18 @@ import { RoomsModule } from './modules/rooms/rooms.module';
       },
       inject: [ConfigService],
     }),
-    ProductsModule,
+    // ProductsModule,
     OrdersModule,
     jsonplaceholderModule,
     UsersModule,
+    RoomsModule,
+    // PostsModule,
+    UsersKnexModule,
+
+    //db connect
     PrismaModule,
-    PostsModule,
-    RoomsModule
+    DrizzleModule,
+    KnexModule
   ],
   controllers: [AppController],
   providers: [AppService],
