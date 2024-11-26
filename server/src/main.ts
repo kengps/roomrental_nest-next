@@ -1,10 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import cookieParser from 'cookie-parser';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(cookieParser());
   app.setGlobalPrefix('api');
   // Set up global validation pipe
   app.useGlobalPipes(
@@ -22,7 +24,7 @@ async function bootstrap() {
       },
     }),
   );
-
+  
   await app.listen(process.env.PORT ?? 3000);
 
   console.log(` Nest Local: http://localhost:${process.env.PORT ?? 3000}`);

@@ -23,6 +23,7 @@ import { RoomsModule } from './modules/rooms/rooms.module';
 import { UsersKnexModule } from './modules/users-knex/users-knex.module';
 import { DrizzleModule } from 'src/config/drizzle/drizzle.module';
 import { KnexModule } from 'src/config/knex/knex.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -51,6 +52,11 @@ import { KnexModule } from 'src/config/knex/knex.module';
       },
       inject: [ConfigService],
     }),
+    //db connect
+    PrismaModule,
+    DrizzleModule,
+    KnexModule,
+    // modules
     // ProductsModule,
     OrdersModule,
     jsonplaceholderModule,
@@ -58,11 +64,7 @@ import { KnexModule } from 'src/config/knex/knex.module';
     RoomsModule,
     // PostsModule,
     UsersKnexModule,
-
-    //db connect
-    PrismaModule,
-    DrizzleModule,
-    KnexModule
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

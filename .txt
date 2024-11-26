@@ -83,3 +83,13 @@ command: sh -c "
       npx prisma migrate dev --name init &&
       npm run start:dev"
       
+
+docker
+คำสั่งสำหรับการเข้าไปดู container
+docker exec -it nest-next-tutorial_server_app_1 /bin/sh  
+
+หากต้องการดู packet ที่ติดตั้ง
+npm list @nestjs/passport
+
+ดูทั้งหมด 
+ npm list --depth=0

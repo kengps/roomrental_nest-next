@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@nestjs/config": "^3.3.0",
     "@nestjs/mapped-types": "*",
     "concurrently": "^9.1.0",
     "react": "^18.2.0",

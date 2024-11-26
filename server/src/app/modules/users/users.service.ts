@@ -71,6 +71,17 @@ export class UsersService {
     return await this.prisma.profile.findMany();
   }
 
+  async findByUsername(username: string): Promise<any> {
+   
+   const user = await this.prisma.profile.findUnique({
+      where: { username: username },
+    });
+    
+
+    return user
+  }
+  
+  
   async findUserParent(): Promise<Profile[]> {
     const userParent = await this.prisma.profile.findMany({
       where: {
@@ -82,26 +93,25 @@ export class UsersService {
     return userParent;
   }
 
-  async findUserIsActive(): Promise<Profile[]>{
+  async findUserIsActive(): Promise<Profile[]> {
     const userParent = await this.prisma.profile.findMany({
       where: {
-        isActive: true
+        isActive: true,
       },
     });
     return userParent;
   }
 
-  async findUserIsNotActive():  Promise<Profile[]> {
+  async findUserIsNotActive(): Promise<Profile[]> {
     const userParent = await this.prisma.profile.findMany({
       where: {
-        isActive: false
+        isActive: false,
       },
     });
     return userParent;
   }
 
-
-  async findProfileInRole() : Promise<Role[]>{
+  async findProfileInRole(): Promise<Role[]> {
     return await this.prisma.role.findMany({
       include: {
         isProfiles: true,
@@ -112,11 +122,10 @@ export class UsersService {
     const user = await this.prisma.profile.findUnique({
       where: { id: id },
     });
-    return user
+    return user;
   }
 
-
-  async changePassword(id: string, password: string):  Promise<Profile | null> {
+  async changePassword(id: string, password: string): Promise<Profile | null> {
     const existUser = await this.prisma.profile.findUnique({
       where: { id: id },
     });
